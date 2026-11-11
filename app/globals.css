@@ -55,3 +55,7 @@ article > .photo-placeholder {
 .pagination { justify-content: center; margin-top: 2rem; }
 @media (max-width: 900px) { #spots { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 480px) { #spots { grid-template-columns: 1fr; } }
+
+.credited-photo { margin: 0; background: #e7ebe1; }
+.credited-photo img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: contain; }
+.credited-photo figcaption { padding: .35rem .75rem; font-size: .8rem; }
