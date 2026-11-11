@@ -1,7 +1,7 @@
 * { box-sizing: border-box; }
 body { margin: 0; background: #f7f5ed; color: #20352d; font-family: system-ui, sans-serif; line-height: 1.6; }
 .wrap { width: min(1100px, 90%); margin: auto; }
-header { background: linear-gradient(to bottom, #a87b14, #d9ad40 56%, #f5e2a7); color: #241a0b; padding: clamp(3rem, 10vw, 8rem) 0; }
+header { background: linear-gradient(to bottom, #8c871f, #c5bd54 56%, #e9e7aa); color: #241a0b; padding: clamp(3rem, 10vw, 8rem) 0; }
 h1 { font-family: Georgia, serif; font-weight: normal; font-size: clamp(3.3rem, 10vw, 8rem); letter-spacing: -.06em; line-height: 1; margin: 0 0 1.5rem; }
 header p { max-width: 37rem; margin: .5rem 0; }
 main { padding: 3rem 0 4rem; }
