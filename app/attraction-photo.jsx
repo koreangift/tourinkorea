@@ -2,8 +2,22 @@
 
 import { useState } from 'react';
 
-export default function AttractionPhoto({ src }) {
+export default function AttractionPhoto({ src, gallery = [], photoPage }) {
   const [failed, setFailed] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
+
+  if (photoPage) {
+    const images = [...new Set([...gallery, src].filter(Boolean))];
+    const image = images[imageIndex];
+    return (
+      <figure className="credited-photo">
+        {image && <img key={image} src={image} alt="가덕도 연대봉" loading="lazy" onError={() => setImageIndex(imageIndex + 1)} />}
+        <figcaption>
+          <a href={photoPage}>{image ? '사진 · 한국관광공사' : '한국관광공사에서 사진 보기'}</a>
+        </figcaption>
+      </figure>
+    );
+  }
 
   if (src === 'https://tong.visitkorea.or.kr/cms/resource/25/2798125_image2_1.JPG') {
     return (

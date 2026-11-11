@@ -18,7 +18,7 @@ export default async function AttractionPage({ params, searchParams }) {
       <Link className="back-link" href={'/?' + browseQuery(region, page)}>← 관광지 목록</Link>
       {result.status === 'ready' ? (
         <article>
-          <AttractionPhoto src={result.attraction.image} />
+          <AttractionPhoto src={result.attraction.image} gallery={result.attraction.gallery} photoPage={result.attraction.photoPage} />
           <div>
             <h1>{result.attraction.title}</h1>
             {result.attraction.address && <p>주소 · {result.attraction.address}</p>}

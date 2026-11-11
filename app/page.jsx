@@ -40,7 +40,7 @@ export default async function Home({ searchParams }) {
             <div id="spots">
               {result.attractions.map((attraction) => (
                 <article key={attraction.id}>
-                  <AttractionPhoto src={attraction.image} />
+                  <AttractionPhoto src={attraction.image} gallery={attraction.gallery} photoPage={attraction.photoPage} />
                   <div>
                     <h3>{attraction.title}</h3>
                     {attraction.address && <p>{attraction.address}</p>}
