@@ -1,0 +1,16 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #f7f5ed; color: #20352d; font-family: system-ui, sans-serif; line-height: 1.6; }
+.wrap { width: min(1100px, 90%); margin: auto; }
+header { background: #163b31; color: #fffdf2; padding: clamp(3rem, 10vw, 8rem) 0; }
+h1 { font-family: Georgia, serif; font-weight: normal; font-size: clamp(3.3rem, 10vw, 8rem); letter-spacing: -.06em; line-height: 1; margin: 0 0 1.5rem; }
+header p { max-width: 37rem; margin: .5rem 0; }
+main { padding: 3rem 0 4rem; }
+h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 0; }
+#spots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); gap: 1.25rem; }
+article { overflow: hidden; border: 1px solid #d7ded0; border-radius: 1rem; background: white; }
+article img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+article div { padding: 1.25rem; }
+article h3, article p { margin: 0; }
+article p { color: #4d5c54; margin-top: .35rem; }
+footer { border-top: 1px solid #d7ded0; padding: 1.5rem 0; font-size: .9rem; }
+a { color: inherit; }
