@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tour in Korea</title>
+<meta name="description" content="한국의 관광명소를 찾아보세요. Discover attractions across South Korea.">
+<style>
+* { box-sizing: border-box; }
+body { margin: 0; background: #f7f5ed; color: #20352d; font-family: system-ui, sans-serif; line-height: 1.6; }
+.wrap { width: min(1100px, 90%); margin: auto; }
+header { background: #163b31; color: #fffdf2; padding: clamp(3rem, 10vw, 8rem) 0; }
+h1 { font-family: Georgia, serif; font-weight: normal; font-size: clamp(3.3rem, 10vw, 8rem); letter-spacing: -.06em; line-height: 1; margin: 0 0 1.5rem; }
+header p { max-width: 37rem; margin: .5rem 0; }
+main { padding: 3rem 0 4rem; }
+h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 0; }
+#spots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); gap: 1.25rem; }
+article { overflow: hidden; border: 1px solid #d7ded0; border-radius: 1rem; background: white; }
+article img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+article div { padding: 1.25rem; }
+article h3, article p { margin: 0; }
+article p { color: #4d5c54; margin-top: .35rem; }
+footer { border-top: 1px solid #d7ded0; padding: 1.5rem 0; font-size: .9rem; }
+a { color: inherit; }
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<h1 lang="en">Tour in Korea</h1>
+<p>Tour in Korea는 한국의 관광명소와 여행 정보를 소개합니다. 가보고 싶은 곳을 찾고 나만의 한국 여행을 계획해 보세요.</p>
+<p lang="en">Tour in Korea helps you discover attractions across South Korea and find travel information to plan your trip.</p>
+</div></header>
+<main class="wrap">
+<h2>부산 관광지 <span lang="en">· Busan</span></h2>
+<p id="status" role="status">관광지 목록을 불러오는 중입니다.</p>
+<div id="spots"></div>
+<noscript>관광지 목록을 보려면 JavaScript를 켜 주세요.</noscript>
+</main>
+<footer><div class="wrap">관광정보 출처 <a href="https://www.data.go.kr/data/15101578/openapi.do">한국관광공사 TourAPI</a></div></footer>
+<script type="module">
+const status = document.querySelector('#status');
+const spots = document.querySelector('#spots');
+
+try {
+  const response = await fetch('./spots.json');
+  if (!response.ok) throw new Error('Could not load tourism data');
+  const attractions = await response.json();
+
+  for (const attraction of attractions) {
+    const card = document.createElement('article');
+    if (typeof attraction.image === 'string' && attraction.image.startsWith('https://')) {
+      const image = document.createElement('img');
+      image.src = attraction.image;
+      image.alt = '';
+      image.loading = 'lazy';
+      image.addEventListener('error', () => image.remove());
+      card.append(image);
+    }
+
+    const details = document.createElement('div');
+    const title = document.createElement('h3');
+    const address = document.createElement('p');
+    title.textContent = attraction.title;
+    address.textContent = attraction.address;
+    details.append(title, address);
+    card.append(details);
+    spots.append(card);
+  }
+
+  status.textContent = attractions.length ? '' : '표시할 관광지가 아직 없습니다.';
+} catch {
+  status.textContent = '관광지 목록을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';
+}
+</script>
+</body>
+</html>
