@@ -8,9 +8,34 @@ main { padding: 3rem 0 4rem; }
 h2 { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 0; }
 #spots { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); gap: 1.25rem; }
 article { overflow: hidden; border: 1px solid #d7ded0; border-radius: 1rem; background: white; }
-article img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
-article div { padding: 1.25rem; }
+ .attraction-photo { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; display: block; }
+article > div { padding: 1.25rem; }
 article h3, article p { margin: 0; }
 article p { color: #4d5c54; margin-top: .35rem; }
 footer { border-top: 1px solid #d7ded0; padding: 1.5rem 0; font-size: .9rem; }
 a { color: inherit; }
+
+#spots { margin-top: 1.5rem; }
+article > .photo-placeholder {
+  aspect-ratio: 3 / 2;
+  display: grid;
+  place-items: center;
+  background: #e7ebe1;
+  color: #4d5c54;
+}
+.detail-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: .5rem .85rem;
+  border-radius: .5rem;
+  background: #163b31;
+  color: #fffdf2;
+  text-decoration: none;
+}
+.detail-link:hover { background: #245747; }
+.back-link { display: inline-block; margin-bottom: 1rem; }
+.attraction-detail { max-width: 780px; }
+.attraction-detail h1 { margin-bottom: 1rem; font-family: inherit; font-size: clamp(1.8rem, 5vw, 3rem); letter-spacing: -.03em; }
+.attraction-detail h2 { margin-top: 1.5rem; font-size: 1.35rem; }
+.attraction-detail .overview { white-space: pre-line; }
+.attraction-detail .detail-source { margin-top: 1.5rem; font-size: .9rem; }

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import AttractionPhoto from './attraction-photo';
 import { connection } from 'next/server';
 import { getBusanAttractions } from '../lib/tour-api.mjs';
 
@@ -23,10 +25,13 @@ export default async function Home() {
             <div id="spots">
               {result.attractions.map((attraction) => (
                 <article key={attraction.id}>
-                  {attraction.image && <img src={attraction.image} alt="" loading="lazy" />}
+                  <AttractionPhoto src={attraction.image} />
                   <div>
                     <h3>{attraction.title}</h3>
                     {attraction.address && <p>{attraction.address}</p>}
+                    <Link className="detail-link" href={`/spots/${attraction.id}`} prefetch={false} aria-label={`${attraction.title} 상세 정보`}>
+                      상세 정보
+                    </Link>
                   </div>
                 </article>
               ))}
