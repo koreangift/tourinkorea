@@ -3,8 +3,11 @@ import { notFound } from 'next/navigation';
 import AttractionPhoto from '../../attraction-photo';
 import { getAttractionDetails } from '../../../lib/tour-api.mjs';
 
-export default async function AttractionPage({ params }) {
+import { browseQuery, getBrowseSelection } from '../../../lib/regions.mjs';
+
+export default async function AttractionPage({ params, searchParams }) {
   const { id } = await params;
+  const { region, page } = getBrowseSelection(await searchParams);
   if (!/^\d{1,12}$/.test(id)) notFound();
 
   const result = await getAttractionDetails(process.env.TOUR_API_KEY, id);
@@ -12,7 +15,7 @@ export default async function AttractionPage({ params }) {
 
   return (
     <main className="wrap attraction-detail">
-      <Link className="back-link" href="/">← 관광지 목록</Link>
+      <Link className="back-link" href={'/?' + browseQuery(region, page)}>← 관광지 목록</Link>
       {result.status === 'ready' ? (
         <article>
           <AttractionPhoto src={result.attraction.image} />
