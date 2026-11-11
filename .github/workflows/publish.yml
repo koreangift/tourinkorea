@@ -1,0 +1,76 @@
+name: Publish Tour in Korea
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - name: Download Busan attractions
+        env:
+          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
+        run: |
+          mkdir -p public
+          cp index.html public/
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from urllib.parse import unquote, urlencode
+          from urllib.request import urlopen
+
+          key = os.environ.get("TOUR_API_KEY", "").strip()
+          if not key:
+              raise SystemExit("Set the TOUR_API_KEY repository secret before publishing.")
+
+          query = urlencode({
+              "serviceKey": unquote(key),
+              "MobileOS": "WEB",
+              "MobileApp": "TourInKorea",
+              "_type": "json",
+              "pageNo": 1,
+              "numOfRows": 5,
+              "lDongRegnCd": "26",
+              "contentTypeId": "12",
+          })
+          endpoint = "https://apis.data.go.kr/B551011/KorService2/areaBasedList2"
+          try:
+              with urlopen(f"{endpoint}?{query}", timeout=30) as result:
+                  response = json.load(result)["response"]
+              if response["header"]["resultCode"] != "0000":
+                  raise ValueError("TourAPI rejected the request.")
+              items = response["body"]["items"]
+              attractions = [
+                  {
+                      "title": item["title"],
+                      "address": item.get("addr1", ""),
+                      "image": item.get("firstimage", ""),
+                  }
+                  for item in (items.get("item", []) if items else [])
+              ]
+          except (OSError, ValueError, TypeError, KeyError):
+              raise SystemExit("Could not fetch TourAPI data. Check the secret and API approval.") from None
+
+          Path("public/spots.json").write_text(
+              json.dumps(attractions, ensure_ascii=False), encoding="utf-8"
+          )
+          PY
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - uses: actions/deploy-pages@v4
+        id: deployment
